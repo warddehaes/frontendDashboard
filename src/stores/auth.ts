@@ -6,7 +6,7 @@ export const useAuthStore = defineStore({
   state: () => {
     return {
       user: null,
-      token: "",
+      token: localStorage.getItem("token") || "",
       returnUrl: "/",
     };
   },
@@ -25,6 +25,9 @@ export const useAuthStore = defineStore({
         const tokenObject = JSON.parse(tokenString);
         const bearerToken = tokenObject.token;
 
+        // Store token in local storage
+        localStorage.setItem("token", bearerToken);
+
         //const token = await response.text();
         this.user = username;
         this.token = bearerToken;
@@ -32,6 +35,12 @@ export const useAuthStore = defineStore({
       }
     },
     logout() {
+      // Remove Pinia store data from local storage
+      localStorage.removeItem("pinia");
+
+      // Remove JWT token from local storage
+      localStorage.removeItem("jwt_token");
+
       this.user = null;
       this.token = "";
       router.push("/login");

@@ -19,11 +19,11 @@ onMounted(() => {
 
 <template>
   <h1>Spaces</h1>
+  <h1>Spaces</h1>
+  DAT WERKT JA lol
   <div class="grid grid-cols-3 gap-4">
-    <DeviceCard
-      v-for="space in spaceList"
-      :key="space.id"
-      :space="space"
-    ></DeviceCard>
+    <p v-for="space in spaceList" :key="space.id" :space="space">
+      {{ space.id }}
+    </p>
   </div>
 </template>

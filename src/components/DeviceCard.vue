@@ -1,7 +1,35 @@
 <script setup>
+import { useAuthStore } from "@/stores/auth";
+import { ref, onMounted } from "vue";
+const authStore = useAuthStore();
+const deviceList = ref([]);
+
 defineProps({
   device: Object,
 });
+
+const deleteDevice = async () => {
+  const response = await fetch("http://localhost:9191/device/delete", {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${authStore.token}`,
+    },
+    body: JSON.stringify(device),
+  })
+    .then((response) => response.json())
+    .then((apiDevices) => {
+      deviceList.value = apiDevices;
+    });
+  if (response.ok) {
+    console.error("yes");
+  } else {
+    console.error("No device specified");
+  }
+};
+
+const onDeleteClick = () => {
+  deleteDevice();
+};
 </script>
 
 <template>
@@ -47,6 +75,7 @@ defineProps({
       <button
         type="button"
         class="inline-flex items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
+        @click="onDeleteClick"
       >
         <svg
           aria-hidden="true"

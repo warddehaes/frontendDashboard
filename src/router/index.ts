@@ -2,7 +2,9 @@ import { useAuthStore } from "@/stores/auth";
 import DashboardView from "@/views/DashboardView.vue";
 import LoginView from "@/views/LoginView.vue";
 import DevicesView from "@/views/DevicesView.vue";
+import SpacesView from "@/views/SpacesView.vue";
 import NewDevice from "@/components/NewDevice.vue";
+import DeleteMessage from "@/components/DeleteMessage.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -27,6 +29,16 @@ const router = createRouter({
       path: "/devices/Newdevice",
       name: "NewDevices",
       component: NewDevice,
+    },
+    {
+      path: "/spaces",
+      name: "Spaces",
+      component: SpacesView,
+    },
+    {
+      path: `/deletemessage`,
+      name: "DeleteMessage",
+      component: DeleteMessage,
     },
   ],
 });
