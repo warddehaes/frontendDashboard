@@ -1,6 +1,7 @@
 <script setup>
 import { useAuthStore } from "@/stores/auth";
 import { ref, onMounted } from "vue";
+import axios from "axios";
 const authStore = useAuthStore();
 const deviceList = ref([]);
 
@@ -8,28 +9,28 @@ defineProps({
   device: Object,
 });
 
-const deleteDevice = async () => {
-  const response = await fetch("http://localhost:9191/device/delete", {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${authStore.token}`,
-    },
-    body: JSON.stringify(device),
-  })
-    .then((response) => response.json())
-    .then((apiDevices) => {
-      deviceList.value = apiDevices;
-    });
-  if (response.ok) {
-    console.error("yes");
-  } else {
-    console.error("No device specified");
-  }
+const config = {
+  headers: { Authorization: `Bearer ${authStore.token}` },
 };
 
-const onDeleteClick = () => {
-  deleteDevice();
-};
+function destroyDevice(id) {
+  if (!window.confirm("Are you sure?")) {
+    return Promise.reject("User cancelled deletion");
+  }
+  return axios
+    .delete(`http://localhost:9191/device/${id}`, config)
+    .then(() => {
+      window.location.reload();
+      return axios.get("http://localhost:9191/device/all", config);
+    })
+    .then((response) => {
+      deviceList.value = response.data;
+    })
+    .catch((error) => {
+      console.error(error);
+      throw error; // re-throw error to propagate it to the calling code
+    });
+}
 </script>
 
 <template>
@@ -75,7 +76,7 @@ const onDeleteClick = () => {
       <button
         type="button"
         class="inline-flex items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-        @click="onDeleteClick"
+        @click="() => destroyDevice(device.id)"
       >
         <svg
           aria-hidden="true"

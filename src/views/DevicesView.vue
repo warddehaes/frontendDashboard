@@ -2,18 +2,27 @@
 import { ref, onMounted } from "vue";
 import DeviceCard from "../components/DeviceCard.vue";
 import { useAuthStore } from "@/stores/auth";
+import axios from "axios";
 
 const deviceList = ref([]);
 const authStore = useAuthStore();
 
+const config = {
+  headers: { Authorization: `Bearer ${authStore.token}` },
+};
+
+const bodyParameters = {
+  key: "value",
+};
+
 onMounted(() => {
-  console.log(authStore.token); // log the token value
-  fetch("http://localhost:9191/device/all", {
-    headers: { Authorization: `Bearer ${authStore.token}` },
-  })
-    .then((response) => response.json())
-    .then((apiDevices) => {
-      deviceList.value = apiDevices;
+  axios
+    .get("http://localhost:9191/device/all", config)
+    .then((response) => {
+      deviceList.value = response.data;
+    })
+    .catch((error) => {
+      console.error(error);
     });
 });
 </script>
