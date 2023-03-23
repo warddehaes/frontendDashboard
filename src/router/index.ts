@@ -4,8 +4,8 @@ import LoginView from "@/views/LoginView.vue";
 import DevicesView from "@/views/DevicesView.vue";
 import SpacesView from "@/views/SpacesView.vue";
 import NewDevice from "@/components/NewDevice.vue";
+import UpdateDevice from "@/components/UpdateDevice.vue";
 import DeleteMessage from "@/components/DeleteMessage.vue";
-import DeviceUpdate from "@/components/DeviceUpdate.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -32,6 +32,11 @@ const router = createRouter({
       component: NewDevice,
     },
     {
+      path: "/devices/updateDevice/:id",
+      name: "UpdateDevice",
+      component: UpdateDevice,
+    },
+    {
       path: "/spaces",
       name: "Spaces",
       component: SpacesView,
@@ -40,11 +45,6 @@ const router = createRouter({
       path: `/deletemessage`,
       name: "DeleteMessage",
       component: DeleteMessage,
-    },
-    {
-      path: `/devices/updatedevice`,
-      name: "updatedevice",
-      component: DeviceUpdate,
     },
   ],
 });
