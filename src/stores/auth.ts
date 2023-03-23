@@ -8,6 +8,7 @@ export const useAuthStore = defineStore({
       user: null,
       token: localStorage.getItem("token") || "",
       returnUrl: "/",
+      role: null,
     };
   },
   actions: {
@@ -31,6 +32,7 @@ export const useAuthStore = defineStore({
         //const token = await response.text();
         this.user = username;
         this.token = bearerToken;
+
         router.push(this.returnUrl || "/");
       }
     },

@@ -100,7 +100,7 @@ const addDevice = async (event: any) => {
                 :space="space"
                 v-bind:value="space"
               >
-                {{ space.id }}
+                {{ space.naam }}
               </option>
             </select>
           </div>
@@ -126,7 +126,7 @@ const addDevice = async (event: any) => {
           class="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg bg-green-700 hover:bg-green-800"
           @click="addDevice"
         >
-          Add product
+          Add device
         </button>
       </form>
     </div>
