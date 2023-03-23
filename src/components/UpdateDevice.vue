@@ -12,6 +12,9 @@ const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 
+// Import the computed property userRole from the auth store
+const { role } = useAuthStore();
+
 //test
 onMounted(async () => {
   console.log(authStore.token); // log the token value
@@ -86,66 +89,67 @@ const updatedevice = async (event: any) => {
       </h2>
       <form action="#">
         <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-          <div class="sm:col-span-2">
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Device Name</label
-            >
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Type device name"
-              required=""
-              v-model="FORM.naam"
-            />
-          </div>
-
-          <div class="w-full">
-            <label
-              for="label"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Category</label
-            >
-            <input
-              type="text"
-              name="label"
-              id="label"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-              placeholder="Device category"
-              required=""
-              v-model="FORM.label"
-            />
-          </div>
-
-          <div>
-            <label
-              for="category"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Space</label
-            >
-            <select
-              v-model="FORM.space"
-              id="category"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            >
-              <option selected="" v-bind:value="undefined">
-                Select a space...
-              </option>
-
-              <option
-                v-for="space in spaceList"
-                :key="space.id"
-                :space="space"
-                v-bind:value="space"
+          <div v-if="role === 'ROLE_ADMIN'">
+            <div class="sm:col-span-2">
+              <label
+                for="name"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Device Name</label
               >
-                {{ space.id }}
-              </option>
-            </select>
-          </div>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Type device name"
+                required=""
+                v-model="FORM.naam"
+              />
+            </div>
 
+            <div class="w-full">
+              <label
+                for="label"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Category</label
+              >
+              <input
+                type="text"
+                name="label"
+                id="label"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                placeholder="Device category"
+                required=""
+                v-model="FORM.label"
+              />
+            </div>
+
+            <div>
+              <label
+                for="category"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Space</label
+              >
+              <select
+                v-model="FORM.space"
+                id="category"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              >
+                <option selected="" v-bind:value="undefined">
+                  Select a space...
+                </option>
+
+                <option
+                  v-for="space in spaceList"
+                  :key="space.id"
+                  :space="space"
+                  v-bind:value="space"
+                >
+                  {{ space.id }}
+                </option>
+              </select>
+            </div>
+          </div>
           <div>
             <label
               for="onOff"

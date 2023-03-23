@@ -5,10 +5,10 @@ export const useAuthStore = defineStore({
   id: "auth",
   state: () => {
     return {
-      user: null,
+      user: localStorage.getItem("username") || null,
       token: localStorage.getItem("token") || "",
       returnUrl: "/",
-      role: null,
+      role: localStorage.getItem("role") || null,
     };
   },
   actions: {
@@ -26,26 +26,36 @@ export const useAuthStore = defineStore({
         const tokenObject = JSON.parse(tokenString);
         const bearerToken = tokenObject.token;
 
-        // Store token in local storage
+        // Store token and username in local storage
         localStorage.setItem("token", bearerToken);
+        localStorage.setItem("username", username);
 
-        //const token = await response.text();
-        this.user = username;
-        this.token = bearerToken;
+        // Get user role from backend API
+        const roleResponse = await fetch(`http://localhost:9191/${username}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${bearerToken}`,
+          },
+        });
+
+        if (roleResponse.status == 200) {
+          const roleString = await roleResponse.text();
+          const roleObject = roleString;
+
+          // Store user and role in Pinia store and localStorage
+          this.user = username;
+          this.token = bearerToken;
+          this.role = roleObject;
+          localStorage.setItem("role", roleObject);
+        } else {
+          // Handle error getting user role
+          console.error("Error getting user role:", roleResponse);
+          // Set role to null to avoid errors later on
+          this.role = null;
+        }
 
         router.push(this.returnUrl || "/");
       }
-    },
-    logout() {
-      // Remove Pinia store data from local storage
-      localStorage.removeItem("pinia");
-
-      // Remove JWT token from local storage
-      localStorage.removeItem("jwt_token");
-
-      this.user = null;
-      this.token = "";
-      router.push("/login");
     },
   },
 });
