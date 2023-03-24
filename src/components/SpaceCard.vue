@@ -43,7 +43,6 @@ function destroySpace(id) {
     <div class="flex justify-between mb-4 rounded-t sm:mb-5">
       <div class="text-lg text-gray-900 md:text-xl dark:text-white">
         <h3 class="font-semibold">{{ space.naam }}</h3>
-        <h4 class="font-semibold">{{ space.id }}</h4>
       </div>
     </div>
 

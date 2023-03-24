@@ -52,7 +52,7 @@ function destroyDevice(id) {
         Category: {{ device.label }}
       </dt>
       <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
-        Space: {{ device.space.id }}
+        Space: {{ device.space.naam }}
       </dt>
       <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
         On or off: {{ device.onOff }}
