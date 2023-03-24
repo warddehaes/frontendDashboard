@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import Navbar from "./components/Navbar.vue";
+import TempChart from "./components/TempChart.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -16,6 +17,7 @@ const shouldHideNavbar = computed(() => {
     <template v-if="!shouldHideNavbar">
       <Navbar />
     </template>
+    <TempChart />
     <RouterView />
   </div>
 </template>

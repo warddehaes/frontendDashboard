@@ -94,14 +94,6 @@ const updateSpace = async (event: any) => {
               v-model="FORM.naam"
             />
           </div>
-
-          <div class="w-full">
-            <label
-              for="label"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Category</label
-            >
-          </div>
         </div>
         <button
           type="submit"
